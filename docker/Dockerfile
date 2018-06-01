@@ -11,7 +11,8 @@ ENV LC_ALL en_US.UTF-8
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
-RUN apt-get update -y && apt-get dist-upgrade -y && apt-get install -y \
+RUN apt-get update -y && apt-get dist-upgrade -y
+RUN apt-get install -y \
   git \
   build-essential \
   cmake \ 
@@ -27,7 +28,19 @@ RUN apt-get update -y && apt-get dist-upgrade -y && apt-get install -y \
   libhdf5-dev \
   xdot \
   hdf5-tools \
-  openjdk-8-jdk
+  openjdk-8-jdk\
+  nano \
+  python-pip \
+  python-tk
 
 # Set Java variables
 RUN export JAVA_HOME=/usr/java/java-8-openjdk-amd64 && export PATH=${PATH}:${JAVA_HOME}/bin
+
+# Install python dependencies
+RUN pip install --upgrade pip
+RUN python -m pip install geographiclib matplotlib
+
+# Set entrypoint
+RUN mkdir -p /usr/local/share/trex
+RUN touch /usr/local/share/trex/trex_init.bash
+RUN echo "source /usr/local/share/trex/trex_init.bash" >> /etc/bash.bashrc
