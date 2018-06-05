@@ -31,14 +31,16 @@ RUN apt-get install -y \
   openjdk-8-jdk\
   nano \
   python-pip \
-  python-tk
+  python-tk \
+  screen
 
-# Set Java variables
+# Export paths
 RUN export JAVA_HOME=/usr/java/java-8-openjdk-amd64 && export PATH=${PATH}:${JAVA_HOME}/bin
+RUN export HDF5_LIB=/usr/lib/x86_64-linux-gnu/
 
 # Install python dependencies
 RUN pip install --upgrade pip
-RUN python -m pip install geographiclib matplotlib
+RUN python -m pip install geographiclib matplotlib netCDF4 pyproj
 
 # Set entrypoint
 RUN mkdir -p /usr/local/share/trex
